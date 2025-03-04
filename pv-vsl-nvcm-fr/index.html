@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page</title>
+  
+	<link rel="preload" href="https://scripts.converteai.net/7ee76c7b-b701-481f-b973-2b478faae041/players/67a6b3f12ebeacab4eb37ea8/player.js" as="script">
+	<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer/v1/smartplayer.min.js" as="script">
+	<link rel="preload" href="https://images.converteai.net/7ee76c7b-b701-481f-b973-2b478faae041/players/67a6b3f12ebeacab4eb37ea8/thumbnail.jpg" as="image">
+	<link rel="preload" href="https://cdn.converteai.net/7ee76c7b-b701-481f-b973-2b478faae041/67a6b18b137f1e9a8b4f0c9d/main.m3u8" as="fetch">
+	<link rel="dns-prefetch" href="https://cdn.converteai.net">
+	<link rel="dns-prefetch" href="https://scripts.converteai.net">
+	<link rel="dns-prefetch" href="https://images.converteai.net">
+	<link rel="dns-prefetch" href="https://api.vturb.com.br">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script>
+      function getCurrentDate() {
+          const today = new Date();
+          const day = String(today.getDate()).padStart(2, '0');
+          const month = String(today.getMonth() + 1).padStart(2, '0');
+          const year = today.getFullYear();
+          // Format français : jj/mm/aaaa
+          return `${day}/${month}/${year}`;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('dynamic-date').textContent = getCurrentDate();
+      });
+  </script>
+  <style>
+      body {
+          font-family: 'Poppins', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #fff;
+      }
+
+      .top-bar {
+          background-color: #3366FF;
+          color: white;
+          text-align: center;
+          padding: 10px;
+      }
+
+      .video-section {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+      }
+
+      .sound-notice {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-top: 20px;
+          font-size: 16px;
+          margin-bottom: 40px;
+      }
+      .sound-notice i {
+          margin-right: 10px;
+      }
+
+      .comments-container {
+          max-width: 800px;
+          margin: 30px auto;
+          background-color: #F9FAFB;
+          border-radius: 10px;
+          padding: 20px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .comments-header {
+          font-size: 14px;
+          color: #6C757D;
+          text-align: left;
+          margin-bottom: 20px;
+      }
+
+      .comment {
+          display: flex;
+          align-items: flex-start;
+          padding: 15px 0;
+          border-bottom: 1px solid #E5E7EB;
+      }
+
+      .comment:last-child {
+          border-bottom: none;
+      }
+
+      .comment img {
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          margin-right: 15px;
+      }
+
+      .comment-content {
+          flex: 1;
+      }
+
+      .comment-header {
+          font-weight: 600;
+          font-size: 14px;
+          color: #3A559F;
+          margin-bottom: 5px;
+      }
+
+      .comment-text {
+          font-size: 14px;
+          color: #6C757D;
+          margin-bottom: 10px;
+      }
+
+      .nested-comments {
+          border-left: 2px solid #E5E7EB;
+          padding-left: 10px;
+      }
+      
+      .loading-icon {
+          animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+          from {
+              transform: rotate(0deg);
+          }
+          to {
+              transform: rotate(360deg);
+          }
+      }
+      
+      .load-more-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-top: 20px;
+          padding: 20px;
+      }
+
+      #loadMoreBtn {
+          background-color: #3A559F;
+          color: white;
+          font-weight: 600;
+          padding: 12px 24px;
+          border-radius: 8px;
+          font-size: 14px;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background-color 0.3s;
+      }
+
+      #loadMoreBtn:hover {
+          background-color: #2d4373;
+      }
+      
+      /* CSS para as imagens da sessão escondida */
+      .hidden-images {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin: 20px 0;
+          padding: 0 20px; /* Garante que nas telas pequenas as imagens não encostem nas bordas */
+      }
+      .hidden-images a {
+          display: block;
+      }
+      .hidden-images a img {
+          width: 100%;
+          height: auto;
+          /* Efeito de sombreamento permanente */
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      /* Em telas maiores, exibe as 3 imagens lado a lado */
+      @media (min-width: 768px) {
+          .hidden-images {
+              flex-direction: row;
+              flex-wrap: nowrap;
+          }
+          .hidden-images a {
+              flex: 1;
+          }
+      }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+      Cette présentation ne sera disponible que jusqu'au <span id="dynamic-date" class="underline-highlight"></span>
+  </div>
+
+  <div class="video-section">
+      <div id="vid_67a6b3f12ebeacab4eb37ea8" style="position: relative; width: 100%; padding: 133.33333333333331% 0 0;"> <img id="thumb_67a6b3f12ebeacab4eb37ea8" src="https://images.converteai.net/7ee76c7b-b701-481f-b973-2b478faae041/players/67a6b3f12ebeacab4eb37ea8/thumbnail.jpg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block;" alt="thumbnail"> <div id="backdrop_67a6b3f12ebeacab4eb37ea8" style=" -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px); position: absolute; top: 0; height: 100%; width: 100%; "></div> </div> <script type="text/javascript" id="scr_67a6b3f12ebeacab4eb37ea8"> var s=document.createElement("script"); s.src="https://scripts.converteai.net/7ee76c7b-b701-481f-b973-2b478faae041/players/67a6b3f12ebeacab4eb37ea8/player.js", s.async=!0,document.head.appendChild(s); </script>
+  </div>
+
+  <div class="sound-notice">
+      <i class="bi bi-volume-up-fill"></i>
+      Assurez-vous que le son est activé
+  </div>
+
+  <!-- Sessão escondida com imagens clicáveis -->
+  <div class="esconder">
+      <div class="hidden-images">
+          <a href="https://vm-business.mycartpanda.com/checkout/173387993:1" target="_blank">
+              <img src="images/6.png" alt="Imagem 6">
+          </a>
+          <a href="https://vm-business.mycartpanda.com/checkout/173387992:1" target="_blank">
+              <img src="images/3.png" alt="Imagem 3">
+          </a>
+          <a href="https://vm-business.mycartpanda.com/checkout/173387991:1" target="_blank">
+              <img src="images/1.png" alt="Imagem 1">
+          </a>
+      </div>
+  </div>
+
+  <div class="comments-container">
+      <div class="comments-header">12 sur 1143 commentaires</div>
+      
+      <div class="comment">
+          <img src="images/user1.webp" alt="Wanpen Beckwith">
+          <div class="comment-content">
+              <div class="comment-header">Wanpen Beckwith</div>
+              <div class="comment-text">Je n'ai jamais été aussi heureuse de regarder une vidéo du début à la fin ! MERCI...</div>
+          </div>
+      </div>
+      
+      <div class="comment">
+          <img src="images/user2.webp" alt="Vilma Bawkin">
+          <div class="comment-content">
+              <div class="comment-header">Vilma Bawkin</div>
+              <div class="comment-text">Cette astuce au poivre a aidé mon mari à soulager ses symptômes de douleurs nerveuses...</div>
+          </div>
+      </div>
+      
+      <div class="comment">
+          <img src="images/user3.webp" alt="Teresa King">
+          <div class="comment-content">
+              <div class="comment-header">Teresa King</div>
+              <div class="comment-text">J'ai beaucoup d'inconfort et de fourmillements dans mes épaules et mes mains...</div>
+              <div class="nested-comments">
+                  <div class="comment">
+                      <img src="images/user4.webp" alt="Scott Melvin">
+                      <div class="comment-content">
+                          <div class="comment-header">Scott Melvin</div>
+                          <div class="comment-text">Ça marche vraiment ! Tu peux y croire ?</div>
+                      </div>
+                  </div>
+                  <div class="comment">
+                      <img src="images/user5.webp" alt="Lisa Miller">
+                      <div class="comment-content">
+                          <div class="comment-header">Lisa Miller</div>
+                          <div class="comment-text">Oui, ça marche ! Ma mère a essayé cette astuce simple au poivre...</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <div class="comment">
+          <img src="images/user6.webp" alt="Lori Marie">
+          <div class="comment-content">
+              <div class="comment-header">Lori Marie</div>
+              <div class="comment-text">Mes douleurs nerveuses ont considérablement diminué, et même les fourmillements et l'inconfort dans mes mains ont disparu...</div>
+          </div>
+      </div>
+      
+      <div class="comment">
+          <img src="images/user7.webp" alt="Amanda O'Malley">
+          <div class="comment-content">
+              <div class="comment-header">Amanda O'Malley</div>
+              <div class="comment-text">Pour moi, l'idée de soulager la douleur nerveuse sans médicament, surtout avec quelque chose comme le poivre, m'a toujours semblé absurde...</div>
+          </div>
+      </div>
+      
+      <div class="comment">
+          <img src="images/user8.webp" alt="Andy Battoglia">
+          <div class="comment-content">
+              <div class="comment-header">Andy Battoglia</div>
+              <div class="comment-text">Je ne sais pas... cela pourrait être une arnaque. Et si je perdais mon temps et que ça ne marchait pas ?</div>
+              <div class="nested-comments">
+                  <div class="comment">
+                      <img src="images/user9.webp" alt="Lucy Delane">
+                      <div class="comment-content">
+                          <div class="comment-header">Lucy Delane</div>
+                          <div class="comment-text">J'ai pensé la même chose, mais ça marche. En seulement 15 jours, mes douleurs nerveuses sont passées d'insupportables à quasiment imperceptibles !</div>
+                      </div>
+                  </div>
+                  <div class="comment">
+                      <img src="images/user8.webp" alt="Andy Battoglia">
+                      <div class="comment-content">
+                          <div class="comment-header">Andy Battoglia</div>
+                          <div class="comment-text">Merci beaucoup pour le commentaire, je vais essayer moi aussi alors.</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <div class="comment">
+          <img src="images/user10.webp" alt="Melony Scharmen">
+          <div class="comment-content">
+              <div class="comment-header">Melony Scharmen</div>
+              <div class="comment-text">Je suis vraiment étonnée par cette astuce au poivre pour soulager la douleur nerveuse ! Je ne pensais pas que cela marcherait vraiment, mais je l'utilise depuis 30 jours, et devinez quoi ? Ça a si bien fonctionné ! Je ne veux plus jamais dépendre de médicaments lourds !</div>
+          </div>
+      </div>
+
+      <div class="comment">
+          <img src="images/user11.webp" alt="Stefanie Spear">
+          <div class="comment-content">
+              <div class="comment-header">Stefanie Spear</div>
+              <div class="comment-text">@joycelima, cette astuce au poivre dont je t'ai parlé a fonctionné pour moi.</div>
+          </div>
+      </div>
+      
+      <div class="load-more-container">
+          <button id="loadMoreBtn">
+              Afficher plus de commentaires
+          </button>
+      </div>
+
+  </div>
+  
+  <script>
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      loadMoreBtn.addEventListener('click', () => {
+          loadMoreBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin" style="margin-right: 8px;"></i>Chargement...';
+      });
+  </script>
+  
+  <!-- Código para esconder a sessão -->
+  <style>.esconder { display: none }</style>
+  <script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function() {
+      /* ALTERE O VALOR 10 PARA OS SEGUNDOS EM QUE AS SEÇÕES VÃO APARECER */
+      var SECONDS_TO_DISPLAY = 2932;
+      var CLASS_TO_DISPLAY = ".esconder";
+      /* DAQUI PARA BAIXO NAO PRECISA ALTERAR */
+      var attempts = 0;
+      var elsHiddenList = [];
+      var elsDisplayed = false;
+      var elsHidden = document.querySelectorAll(CLASS_TO_DISPLAY);
+      var alreadyDisplayedKey = "alreadyElsDisplayed" + SECONDS_TO_DISPLAY;
+      var alreadyElsDisplayed = null;
+      try {
+          alreadyElsDisplayed = localStorage.getItem(alreadyDisplayedKey);
+      } catch(e) {
+          console.warn('Failed to read data from localStorage: ', e);
+      }
+      setTimeout(function () { elsHiddenList = Array.prototype.slice.call(elsHidden); }, 0);
+      var showHiddenElements = function () {
+          elsDisplayed = true;
+          elsHiddenList.forEach((e) => e.style.display = "block");
+          try {
+            localStorage.setItem(alreadyDisplayedKey, true);
+          } catch (e) {
+            console.warn('Failed to save data in localStorage: ', e);
+          }
+      }
+      var startWatchVideoProgress = function () {
+          if (typeof smartplayer === 'undefined' || !(smartplayer.instances && smartplayer.instances.length)) {
+              if (attempts >= 10) return;
+              attempts += 1;
+              return setTimeout(function () { startWatchVideoProgress() }, 1000);
+          }
+          smartplayer.instances[0].on('timeupdate', () => {
+              if (elsDisplayed || smartplayer.instances[0].smartAutoPlay) return;
+              if (smartplayer.instances[0].video.currentTime < SECONDS_TO_DISPLAY) return;
+              showHiddenElements();
+          })
+      }
+      if (alreadyElsDisplayed === 'true') {
+          setTimeout(function () { showHiddenElements(); }, 100);
+      } else {
+          startWatchVideoProgress()
+      }
+  });
+  </script>
+
+</body>
+</html>
